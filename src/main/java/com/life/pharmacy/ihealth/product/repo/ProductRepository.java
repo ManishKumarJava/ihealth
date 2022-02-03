@@ -1,4 +1,4 @@
-package com.life.pharmacy.ihealth.product.dao.repo;
+package com.life.pharmacy.ihealth.product.repo;
 
 import com.life.pharmacy.ihealth.product.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

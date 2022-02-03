@@ -7,4 +7,7 @@ import java.util.List;
 public interface ProductDAO {
 
     List<ProductDTO> getProducts();
+
+    ProductDTO addProduct(ProductDTO productDTO);
+
 }

@@ -1,15 +1,15 @@
 package com.life.pharmacy.ihealth.product.controller;
 
 import com.life.pharmacy.ihealth.product.dto.ProductDTO;
+import com.life.pharmacy.ihealth.product.exception.ProductException;
 import com.life.pharmacy.ihealth.product.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +27,17 @@ public class ProductController {
         List<ProductDTO> productDTOs = productService.getProducts();
         return new ResponseEntity<>(productDTOs, HttpStatus.OK);
     }
+
+    //create a new product
+    @PostMapping(value = "/createProduct", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productParam) {
+        LOG.info("createProduct API called with Name:{}, ManufacturerName:{}, Description:{}, Price:{} ", productParam.getName(), productParam.getManufacturerName(), productParam.getDescription(), productParam.getPrice());
+        ProductDTO productResult = productService.addProduct(productParam);
+        if(productResult == null){
+            //Just showing that we can throw exception like this.
+            throw new ProductException("Exception while creating product record");
+        }
+        return new ResponseEntity<>(productResult, HttpStatus.OK);
+    }    
 
 }

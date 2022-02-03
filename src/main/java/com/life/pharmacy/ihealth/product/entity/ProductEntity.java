@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,5 +21,14 @@ public class ProductEntity {
 
     @Column
     private String name;
+
+    @Column
+    private String manufacturerName;
+
+    @Column
+    private String description;
+
+    @Column
+    private BigDecimal price;
 
 }
