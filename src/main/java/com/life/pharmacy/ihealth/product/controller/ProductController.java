@@ -1,6 +1,7 @@
 package com.life.pharmacy.ihealth.product.controller;
 
 import com.life.pharmacy.ihealth.product.dto.ProductDTO;
+import com.life.pharmacy.ihealth.product.dto.SearchResultDTO;
 import com.life.pharmacy.ihealth.product.exception.ProductException;
 import com.life.pharmacy.ihealth.product.service.ProductService;
 import org.slf4j.Logger;
@@ -28,6 +29,19 @@ public class ProductController {
         return new ResponseEntity<>(productDTOs, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    @ResponseBody
+    public SearchResultDTO searchProducts(@RequestParam(required = false) String searchWord,
+                                           @RequestParam(defaultValue = "0") int pageNo,
+                                           @RequestParam(defaultValue = "3") int pageSize,
+                                           @RequestParam(defaultValue = "name") String sortByField) {
+        LOG.info("ProductController searchProducts API called");
+        //Search only on Name field as of now.
+        // TODO In Product table we can create a field that is concatenation of all the searchable fields.
+        // and search for that field only.
+        return productService.searchProducts(searchWord, pageNo, pageSize, sortByField);
+    }
+
     //create a new product
     @PostMapping(value = "/createProduct", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productParam) {
@@ -38,6 +52,10 @@ public class ProductController {
             throw new ProductException("Exception while creating product record");
         }
         return new ResponseEntity<>(productResult, HttpStatus.OK);
-    }    
+    }
+
+
+
+
 
 }
