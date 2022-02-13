@@ -12,11 +12,16 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Data
-public class SearchResultDTO {
-    private long totalElements;
-    private int totalPages;
+public class SearchDTO {
+
+    private String searchWord;
     private int pageNumber;
     private int pageSize;
-    private int resultSize;
+    private String sortByField;
+
+    private long resultTotalElements;
+    private int resultTotalPages;
+    private int resultSize;//this should be same as pageSize TODO
+
     private List<ProductDTO> productDtoList;
 }

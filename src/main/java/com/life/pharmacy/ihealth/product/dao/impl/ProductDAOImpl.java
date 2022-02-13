@@ -1,7 +1,7 @@
 package com.life.pharmacy.ihealth.product.dao.impl;
 
 import com.life.pharmacy.ihealth.product.dao.ProductDAO;
-import com.life.pharmacy.ihealth.product.dto.SearchResultDTO;
+import com.life.pharmacy.ihealth.product.dto.SearchDTO;
 import com.life.pharmacy.ihealth.product.repo.ProductRepository;
 import com.life.pharmacy.ihealth.product.dto.ProductDTO;
 import com.life.pharmacy.ihealth.product.entity.ProductEntity;
@@ -24,22 +24,23 @@ public class ProductDAOImpl implements ProductDAO {
     private ProductRepository productRepository;
 
     @Transactional
-    public SearchResultDTO searchProducts(String searchWord, Pageable pageable){
+    public SearchDTO searchProducts(String searchWord, Pageable pageable){
         Page<ProductEntity> pageResult = productRepository.findByNameContainingIgnoreCase(searchWord, pageable);
         List<ProductDTO> productDtoList = pageResult.get().map(prd -> getProductDTO(prd)).collect(Collectors.toList());
-        SearchResultDTO searchResultDTO = SearchResultDTO.builder()
+        SearchDTO searchDTO = SearchDTO.builder()
                 .productDtoList(productDtoList)
-                .totalElements(pageResult.getTotalElements())
-                .totalPages(pageResult.getTotalPages())
+                .searchWord(searchWord)
+                .resultTotalElements(pageResult.getTotalElements())
+                .resultTotalPages(pageResult.getTotalPages())
                 .pageNumber(pageResult.getNumber())
                 .pageSize(pageResult.getSize())
                 .resultSize(pageResult.getContent().size())
                 .build();
 
         //example to use direct query LIKE.. but case sensitive
-        productRepository.searchByNameLike(searchWord, pageable);
+        //productRepository.searchByNameLike(searchWord, pageable);
 
-        return searchResultDTO;
+        return searchDTO;
     }
 
     @Transactional

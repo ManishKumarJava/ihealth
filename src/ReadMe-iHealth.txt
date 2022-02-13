@@ -10,3 +10,8 @@ http://localhost:4567/product/createProduct
   "description": "description-1",
   "price": "100"
 }
+
+http://localhost:4567/product/search
+{
+    "searchWord": "CRO"
+}
